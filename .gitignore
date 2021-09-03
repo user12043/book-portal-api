@@ -1,6 +1,7 @@
 # Custom
 .jpb
 .idea
+*.mv.db
 
 ### Maven template
 target/
