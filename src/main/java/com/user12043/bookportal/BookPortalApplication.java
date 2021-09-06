@@ -21,13 +21,12 @@ public class BookPortalApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     void initFirstUser() {
-        if (userRepository.findByIsAdmin(true).size() == 0) {
+        if (userRepository.findByRole("ADMIN").size() == 0) {
             User defaultAdmin = new User();
-            defaultAdmin.setAdmin(true);
-            defaultAdmin.setUserId(0L);
+            defaultAdmin.setRole("ADMIN");
             defaultAdmin.setUsername("admin");
             defaultAdmin.setPassword("admin");
-            defaultAdmin.setName("admin");
+            defaultAdmin.setName("Administrator");
             userRepository.saveAndFlush(defaultAdmin);
         }
     }

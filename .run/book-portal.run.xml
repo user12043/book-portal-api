@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="book-portal" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+  <configuration default="false" name="book-portal run" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -12,6 +12,7 @@
             <list>
               <option value="clean" />
               <option value="spring-boot:run" />
+              <option value="-Dspring-boot.run.fork=false" />
             </list>
           </option>
           <option name="pomFileName" />

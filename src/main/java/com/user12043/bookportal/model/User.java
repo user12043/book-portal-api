@@ -2,15 +2,14 @@ package com.user12043.bookportal.model;
 
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class User {
     @Id
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @Column(nullable = false)
@@ -20,13 +19,13 @@ public class User {
     private String password;
 
     @Column
-    private String name;
+    private String name = "";
 
     @Column
-    private String email;
+    private String email = "";
 
-    @Column
-    private boolean isAdmin;
+    @Column(nullable = false, length = 5)
+    private String role = "USER";
 
     @Override
     public boolean equals(Object o) {
@@ -81,11 +80,11 @@ public class User {
         this.email = email;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public String getRole() {
+        return role;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

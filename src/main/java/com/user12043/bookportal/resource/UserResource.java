@@ -1,10 +1,9 @@
 package com.user12043.bookportal.resource;
 
-import com.user12043.bookportal.model.User;
+import com.user12043.bookportal.dto.UserDto;
 import com.user12043.bookportal.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,8 +16,18 @@ public class UserResource {
         this.userService = userService;
     }
 
-    @GetMapping("")
-    List<User> findAll() {
+    @GetMapping
+    List<UserDto> findAll() {
         return userService.findAll();
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    UserDto saveUser(@RequestBody UserDto userDto) {
+        return userService.saveUser(userDto);
+    }
+
+    @DeleteMapping("/{userId}")
+    void deleteUser(@PathVariable("userId") Long userId) {
+        userService.deleteUser(userId);
     }
 }

@@ -10,5 +10,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
-    List<User> findByIsAdmin(boolean isAdmin);
+    List<User> findByRole(String role);
 }
