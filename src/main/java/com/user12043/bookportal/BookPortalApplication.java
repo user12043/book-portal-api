@@ -27,6 +27,7 @@ public class BookPortalApplication {
             defaultAdmin.setUsername("admin");
             defaultAdmin.setPassword("admin");
             defaultAdmin.setName("Administrator");
+            defaultAdmin.setEmail("admin@admin.com");
             userRepository.saveAndFlush(defaultAdmin);
         }
     }
