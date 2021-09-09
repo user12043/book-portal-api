@@ -19,12 +19,12 @@ public class UserService {
         return UserDto.fromUserList(userRepository.findAll());
     }
 
-    public UserDto saveUser(UserDto userDto) {
+    public UserDto save(UserDto userDto) {
         final User saved = userRepository.save(UserDto.toUser(userDto));
         return UserDto.fromUser(saved);
     }
 
-    public void deleteUser(Long userId) {
+    public void delete(Long userId) {
         userRepository.deleteById(userId);
     }
 }

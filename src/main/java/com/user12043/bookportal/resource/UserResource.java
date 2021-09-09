@@ -22,12 +22,12 @@ public class UserResource {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    UserDto saveUser(@RequestBody UserDto userDto) {
-        return userService.saveUser(userDto);
+    UserDto save(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
     }
 
     @DeleteMapping("/{userId}")
-    void deleteUser(@PathVariable("userId") Long userId) {
-        userService.deleteUser(userId);
+    void delete(@PathVariable("userId") Long userId) {
+        userService.delete(userId);
     }
 }

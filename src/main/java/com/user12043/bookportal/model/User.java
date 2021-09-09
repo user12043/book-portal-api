@@ -3,6 +3,7 @@ package com.user12043.bookportal.model;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +27,12 @@ public class User {
 
     @Column(nullable = false, length = 5)
     private String role = "USER";
+
+    @ManyToMany(targetEntity = Book.class)
+    private List<Book> readList;
+
+    @ManyToMany(targetEntity = Book.class)
+    private List<Book> favouriteList;
 
     @Override
     public boolean equals(Object o) {
@@ -86,5 +93,21 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Book> getReadList() {
+        return readList;
+    }
+
+    public void setReadList(List<Book> readList) {
+        this.readList = readList;
+    }
+
+    public List<Book> getFavouriteList() {
+        return favouriteList;
+    }
+
+    public void setFavouriteList(List<Book> favouriteList) {
+        this.favouriteList = favouriteList;
     }
 }
