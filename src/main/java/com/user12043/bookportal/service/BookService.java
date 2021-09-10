@@ -31,4 +31,14 @@ public class BookService {
     public void delete(Long bookId) {
         bookRepository.deleteById(bookId);
     }
+
+    @Transactional
+    public List<BookDto> findByName(String name) {
+        return BookDto.fromBookList(bookRepository.findByNameContainingIgnoreCase(name));
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookDto> findByReadUser(Long userId) {
+        return BookDto.fromBookList(bookRepository.findByReadUsersUserId(userId));
+    }
 }

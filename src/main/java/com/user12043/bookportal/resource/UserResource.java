@@ -30,4 +30,9 @@ public class UserResource {
     void delete(@PathVariable("userId") Long userId) {
         userService.delete(userId);
     }
+
+    @GetMapping("/findByName/{name}")
+    List<UserDto> findByName(@PathVariable String name) {
+        return userService.findByName(name);
+    }
 }

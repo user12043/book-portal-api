@@ -31,4 +31,9 @@ public class UserService {
     public void delete(Long userId) {
         userRepository.deleteById(userId);
     }
+
+    @Transactional
+    public List<UserDto> findByName(String name) {
+        return UserDto.fromUserList(userRepository.findByNameContainingIgnoreCase(name));
+    }
 }

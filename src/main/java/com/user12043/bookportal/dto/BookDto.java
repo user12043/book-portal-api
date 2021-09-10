@@ -11,6 +11,10 @@ public class BookDto {
 
     private AuthorDto author;
 
+    private List<UserDto> readUsers;
+
+    private List<UserDto> favouriteUsers;
+
     public BookDto(Long bookId, String name, AuthorDto author) {
         this.bookId = bookId;
         this.name = name;
@@ -18,7 +22,14 @@ public class BookDto {
     }
 
     public static BookDto fromBook(Book book) {
-        return new BookDto(book.getBookId(), book.getName(), AuthorDto.fromAuthor(book.getAuthor()));
+        final BookDto bookDto = new BookDto(book.getBookId(), book.getName(), AuthorDto.fromAuthor(book.getAuthor()));
+        if (book.getReadUsers() != null && !book.getReadUsers().isEmpty()) {
+            bookDto.setReadUsers(UserDto.fromUserList(book.getReadUsers()));
+        }
+        if (book.getFavouriteUsers() != null && !book.getFavouriteUsers().isEmpty()) {
+            bookDto.setFavouriteUsers(UserDto.fromUserList(book.getFavouriteUsers()));
+        }
+        return bookDto;
     }
 
     public static List<BookDto> fromBookList(List<Book> bookList) {
@@ -55,5 +66,21 @@ public class BookDto {
 
     public void setAuthor(AuthorDto author) {
         this.author = author;
+    }
+
+    public List<UserDto> getReadUsers() {
+        return readUsers;
+    }
+
+    public void setReadUsers(List<UserDto> readUsers) {
+        this.readUsers = readUsers;
+    }
+
+    public List<UserDto> getFavouriteUsers() {
+        return favouriteUsers;
+    }
+
+    public void setFavouriteUsers(List<UserDto> favouriteUsers) {
+        this.favouriteUsers = favouriteUsers;
     }
 }

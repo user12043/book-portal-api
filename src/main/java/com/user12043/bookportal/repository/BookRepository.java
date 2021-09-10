@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAll();
+
+    List<Book> findByNameContainingIgnoreCase(String name);
+
+    List<Book> findByReadUsersUserId(Long userId);
 }

@@ -1,6 +1,7 @@
 package com.user12043.bookportal.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -14,6 +15,12 @@ public class Book {
 
     @ManyToOne(targetEntity = Author.class)
     private Author author;
+
+    @ManyToMany(targetEntity = User.class, mappedBy = "readList")
+    private List<User> readUsers;
+
+    @ManyToMany(targetEntity = User.class, mappedBy = "favouriteList")
+    private List<User> favouriteUsers;
 
     public Long getBookId() {
         return bookId;
@@ -37,5 +44,21 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public List<User> getReadUsers() {
+        return readUsers;
+    }
+
+    public void setReadUsers(List<User> readUsers) {
+        this.readUsers = readUsers;
+    }
+
+    public List<User> getFavouriteUsers() {
+        return favouriteUsers;
+    }
+
+    public void setFavouriteUsers(List<User> favouriteUsers) {
+        this.favouriteUsers = favouriteUsers;
     }
 }
