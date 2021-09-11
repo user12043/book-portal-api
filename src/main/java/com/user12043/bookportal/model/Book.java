@@ -1,9 +1,12 @@
 package com.user12043.bookportal.model;
 
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
+@DynamicUpdate
 public class Book {
     @Id
     @Column(nullable = false)
@@ -16,11 +19,18 @@ public class Book {
     @ManyToOne(targetEntity = Author.class)
     private Author author;
 
-    @ManyToMany(targetEntity = User.class, mappedBy = "readList")
-    private List<User> readUsers;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Book book = (Book) o;
+        return getBookId().equals(book.getBookId());
+    }
 
-    @ManyToMany(targetEntity = User.class, mappedBy = "favouriteList")
-    private List<User> favouriteUsers;
+    @Override
+    public int hashCode() {
+        return getBookId().hashCode();
+    }
 
     public Long getBookId() {
         return bookId;
@@ -44,21 +54,5 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
-    }
-
-    public List<User> getReadUsers() {
-        return readUsers;
-    }
-
-    public void setReadUsers(List<User> readUsers) {
-        this.readUsers = readUsers;
-    }
-
-    public List<User> getFavouriteUsers() {
-        return favouriteUsers;
-    }
-
-    public void setFavouriteUsers(List<User> favouriteUsers) {
-        this.favouriteUsers = favouriteUsers;
     }
 }

@@ -1,6 +1,7 @@
 package com.user12043.bookportal.dto;
 
 import com.user12043.bookportal.model.Author;
+import org.hibernate.Hibernate;
 
 import java.util.List;
 
@@ -26,10 +27,26 @@ public class AuthorDto {
     }
 
     public static Author toAuthor(AuthorDto authorDto) {
+        if (authorDto == null) {
+            return null;
+        }
         Author author = new Author();
         author.setAuthorId(authorDto.getAuthorId());
         author.setName(authorDto.getName());
         return author;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        AuthorDto authorDto = (AuthorDto) o;
+        return getAuthorId().equals(authorDto.getAuthorId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getAuthorId().hashCode();
     }
 
     public Long getAuthorId() {

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class BookService {
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -35,10 +35,5 @@ public class BookService {
     @Transactional
     public List<BookDto> findByName(String name) {
         return BookDto.fromBookList(bookRepository.findByNameContainingIgnoreCase(name));
-    }
-
-    @Transactional(readOnly = true)
-    public List<BookDto> findByReadUser(Long userId) {
-        return BookDto.fromBookList(bookRepository.findByReadUsersUserId(userId));
     }
 }

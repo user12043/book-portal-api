@@ -1,8 +1,11 @@
 package com.user12043.bookportal.dto;
 
 import com.user12043.bookportal.model.User;
+import org.hibernate.Hibernate;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class UserDto {
     private Long userId;
@@ -17,6 +20,13 @@ public class UserDto {
 
     private String role;
 
+    private Set<BookDto> readList;
+
+    private Set<BookDto> favouriteList;
+
+    public UserDto() {
+    }
+
     public UserDto(Long userId, String username, String password, String name, String email, String role) {
         this.userId = userId;
         this.username = username;
@@ -26,8 +36,26 @@ public class UserDto {
         this.role = role;
     }
 
+    public UserDto(Long userId, String username, String password, String name, String email, String role, Set<BookDto> readList, Set<BookDto> favouriteList) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.readList = readList;
+        this.favouriteList = favouriteList;
+    }
+
     public static UserDto fromUser(User user) {
-        return new UserDto(user.getUserId(), user.getUsername(), user.getPassword(), user.getName(), user.getEmail(), user.getRole());
+        final UserDto userDto = new UserDto(user.getUserId(), user.getUsername(), user.getPassword(), user.getName(), user.getEmail(), user.getRole());
+        if (user.getReadList() != null && !user.getReadList().isEmpty()) {
+            userDto.setReadList(BookDto.fromBookSet(user.getReadList()));
+        }
+        if (user.getFavouriteList() != null && !user.getFavouriteList().isEmpty()) {
+            userDto.setFavouriteList(BookDto.fromBookSet(user.getFavouriteList()));
+        }
+        return userDto;
     }
 
     public static List<UserDto> fromUserList(List<User> userList) {
@@ -47,6 +75,20 @@ public class UserDto {
 
     public static List<User> toUserDtoList(List<UserDto> userList) {
         return userList.stream().map(UserDto::toUser).toList();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        UserDto userDto = (UserDto) o;
+        if (!getUserId().equals(userDto.getUserId())) return false;
+        return getUsername().equals(userDto.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserId(), getUsername());
     }
 
     public Long getUserId() {
@@ -95,5 +137,21 @@ public class UserDto {
 
     public void setRole(String isAdmin) {
         this.role = isAdmin;
+    }
+
+    public Set<BookDto> getReadList() {
+        return readList;
+    }
+
+    public void setReadList(Set<BookDto> readList) {
+        this.readList = readList;
+    }
+
+    public Set<BookDto> getFavouriteList() {
+        return favouriteList;
+    }
+
+    public void setFavouriteList(Set<BookDto> favouriteList) {
+        this.favouriteList = favouriteList;
     }
 }

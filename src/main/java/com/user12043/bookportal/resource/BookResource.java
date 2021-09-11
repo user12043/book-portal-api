@@ -35,9 +35,4 @@ public class BookResource {
     List<BookDto> findByName(@PathVariable String name) {
         return bookService.findByName(name);
     }
-
-    @GetMapping("/findByReadUser/{userId}")
-    List<BookDto> findByReadUser(@PathVariable("userId") Long userId) {
-        return bookService.findByReadUser(userId);
-    }
 }

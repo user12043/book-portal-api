@@ -9,6 +9,7 @@ module com.user12043.bookportal {
     requires spring.web;
     requires spring.webmvc;
     requires spring.tx;
+    requires com.fasterxml.jackson.annotation;
 
     exports com.user12043.bookportal;
 }

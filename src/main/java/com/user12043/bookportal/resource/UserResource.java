@@ -35,4 +35,15 @@ public class UserResource {
     List<UserDto> findByName(@PathVariable String name) {
         return userService.findByName(name);
     }
+
+
+    @GetMapping("/addToReadList")
+    UserDto addToReadList(@RequestParam Long bookId, @RequestParam Long userId) {
+        return userService.addToReadList(bookId, userId);
+    }
+
+    @GetMapping("/addToFavouriteList")
+    UserDto addToFavouriteList(@RequestParam Long bookId, @RequestParam Long userId) {
+        return userService.addToFavouriteList(bookId, userId);
+    }
 }

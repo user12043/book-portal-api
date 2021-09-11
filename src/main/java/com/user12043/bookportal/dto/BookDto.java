@@ -1,8 +1,11 @@
 package com.user12043.bookportal.dto;
 
 import com.user12043.bookportal.model.Book;
+import org.hibernate.Hibernate;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BookDto {
     private Long bookId;
@@ -11,10 +14,6 @@ public class BookDto {
 
     private AuthorDto author;
 
-    private List<UserDto> readUsers;
-
-    private List<UserDto> favouriteUsers;
-
     public BookDto(Long bookId, String name, AuthorDto author) {
         this.bookId = bookId;
         this.name = name;
@@ -22,18 +21,15 @@ public class BookDto {
     }
 
     public static BookDto fromBook(Book book) {
-        final BookDto bookDto = new BookDto(book.getBookId(), book.getName(), AuthorDto.fromAuthor(book.getAuthor()));
-        if (book.getReadUsers() != null && !book.getReadUsers().isEmpty()) {
-            bookDto.setReadUsers(UserDto.fromUserList(book.getReadUsers()));
-        }
-        if (book.getFavouriteUsers() != null && !book.getFavouriteUsers().isEmpty()) {
-            bookDto.setFavouriteUsers(UserDto.fromUserList(book.getFavouriteUsers()));
-        }
-        return bookDto;
+        return new BookDto(book.getBookId(), book.getName(), AuthorDto.fromAuthor(book.getAuthor()));
     }
 
     public static List<BookDto> fromBookList(List<Book> bookList) {
         return bookList.stream().map(BookDto::fromBook).toList();
+    }
+
+    public static Set<BookDto> fromBookSet(Set<Book> bookSet) {
+        return bookSet.stream().map(BookDto::fromBook).collect(Collectors.toSet());
     }
 
     public static Book toBook(BookDto bookDto) {
@@ -42,6 +38,19 @@ public class BookDto {
         book.setName(bookDto.getName());
         book.setAuthor(AuthorDto.toAuthor(bookDto.getAuthor()));
         return book;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        BookDto bookDto = (BookDto) o;
+        return getBookId().equals(bookDto.getBookId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getBookId().hashCode();
     }
 
     public Long getBookId() {
@@ -66,21 +75,5 @@ public class BookDto {
 
     public void setAuthor(AuthorDto author) {
         this.author = author;
-    }
-
-    public List<UserDto> getReadUsers() {
-        return readUsers;
-    }
-
-    public void setReadUsers(List<UserDto> readUsers) {
-        this.readUsers = readUsers;
-    }
-
-    public List<UserDto> getFavouriteUsers() {
-        return favouriteUsers;
-    }
-
-    public void setFavouriteUsers(List<UserDto> favouriteUsers) {
-        this.favouriteUsers = favouriteUsers;
     }
 }

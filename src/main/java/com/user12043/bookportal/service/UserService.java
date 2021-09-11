@@ -1,7 +1,9 @@
 package com.user12043.bookportal.service;
 
 import com.user12043.bookportal.dto.UserDto;
+import com.user12043.bookportal.model.Book;
 import com.user12043.bookportal.model.User;
+import com.user12043.bookportal.repository.BookRepository;
 import com.user12043.bookportal.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +13,11 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final BookRepository bookRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BookRepository bookRepository) {
         this.userRepository = userRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Transactional(readOnly = true)
@@ -35,5 +39,23 @@ public class UserService {
     @Transactional
     public List<UserDto> findByName(String name) {
         return UserDto.fromUserList(userRepository.findByNameContainingIgnoreCase(name));
+    }
+
+    @Transactional
+    public UserDto addToReadList(Long bookId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        Book book = bookRepository.findById(bookId).orElseThrow();
+        user.getReadList().add(book);
+        User saved = userRepository.save(user);
+        return UserDto.fromUser(saved);
+    }
+
+    @Transactional
+    public UserDto addToFavouriteList(Long bookId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        Book book = bookRepository.findById(bookId).orElseThrow();
+        user.getFavouriteList().add(book);
+        User saved = userRepository.save(user);
+        return UserDto.fromUser(saved);
     }
 }
