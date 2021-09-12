@@ -37,13 +37,13 @@ public class UserResource {
     }
 
 
-    @GetMapping("/addToReadList")
-    UserDto addToReadList(@RequestParam Long bookId, @RequestParam Long userId) {
-        return userService.addToReadList(bookId, userId);
+    @GetMapping("/toggleReadList")
+    UserDto toggleReadList(@RequestParam Long bookId, @RequestParam Long userId) {
+        return userService.toggleReadList(bookId, userId);
     }
 
-    @GetMapping("/addToFavouriteList")
-    UserDto addToFavouriteList(@RequestParam Long bookId, @RequestParam Long userId) {
-        return userService.addToFavouriteList(bookId, userId);
+    @GetMapping("/toggleFavouriteList")
+    UserDto toggleFavouriteList(@RequestParam Long bookId, @RequestParam Long userId) {
+        return userService.toggleFavouriteList(bookId, userId);
     }
 }

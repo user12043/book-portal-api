@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/books")
@@ -34,5 +35,15 @@ public class BookResource {
     @GetMapping("/findByName/{name}")
     List<BookDto> findByName(@PathVariable String name) {
         return bookService.findByName(name);
+    }
+
+    @GetMapping("/findReadListOfUser/{userId}")
+    Set<BookDto> findReadListOfUser(@PathVariable Long userId) {
+        return bookService.findReadListOfUser(userId);
+    }
+
+    @GetMapping("/findFavouriteListOfUser/{userId}")
+    Set<BookDto> findFavouriteListOfUser(@PathVariable Long userId) {
+        return bookService.findFavouriteListOfUser(userId);
     }
 }

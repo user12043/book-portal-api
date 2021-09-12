@@ -42,19 +42,27 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto addToReadList(Long bookId, Long userId) {
+    public UserDto toggleReadList(Long bookId, Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         Book book = bookRepository.findById(bookId).orElseThrow();
-        user.getReadList().add(book);
+        if (user.getReadList().contains(book)) {
+            user.getReadList().remove(book);
+        } else {
+            user.getReadList().add(book);
+        }
         User saved = userRepository.save(user);
         return UserDto.fromUser(saved);
     }
 
     @Transactional
-    public UserDto addToFavouriteList(Long bookId, Long userId) {
+    public UserDto toggleFavouriteList(Long bookId, Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         Book book = bookRepository.findById(bookId).orElseThrow();
-        user.getFavouriteList().add(book);
+        if (user.getFavouriteList().contains(book)) {
+            user.getFavouriteList().remove(book);
+        } else {
+            user.getFavouriteList().add(book);
+        }
         User saved = userRepository.save(user);
         return UserDto.fromUser(saved);
     }

@@ -47,15 +47,21 @@ public class UserDto {
         this.favouriteList = favouriteList;
     }
 
-    public static UserDto fromUser(User user) {
+    public static UserDto fromUser(User user, boolean withLists) {
         final UserDto userDto = new UserDto(user.getUserId(), user.getUsername(), user.getPassword(), user.getName(), user.getEmail(), user.getRole());
-        if (user.getReadList() != null && !user.getReadList().isEmpty()) {
-            userDto.setReadList(BookDto.fromBookSet(user.getReadList()));
-        }
-        if (user.getFavouriteList() != null && !user.getFavouriteList().isEmpty()) {
-            userDto.setFavouriteList(BookDto.fromBookSet(user.getFavouriteList()));
+        if (withLists) {
+            if (user.getReadList() != null && !user.getReadList().isEmpty()) {
+                userDto.setReadList(BookDto.fromBookSet(user.getReadList()));
+            }
+            if (user.getFavouriteList() != null && !user.getFavouriteList().isEmpty()) {
+                userDto.setFavouriteList(BookDto.fromBookSet(user.getFavouriteList()));
+            }
         }
         return userDto;
+    }
+
+    public static UserDto fromUser(User user) {
+        return fromUser(user, false);
     }
 
     public static List<UserDto> fromUserList(List<User> userList) {
